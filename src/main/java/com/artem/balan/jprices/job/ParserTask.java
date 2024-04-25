@@ -18,10 +18,17 @@ public class ParserTask {
     @Autowired
     private PriceService priceService;
 
-    //@Scheduled(fixedDelay = 10_000_000) // 2.7 h
+    @Scheduled(fixedDelay = 50_000_0) // 500s
     public void parsePrices() {
         String siteUrlA = "https://agrotender.com.ua/traders/region_vinnica/soya";
         String siteUrlB = "https://tripoli.land/ua/analytics/soya";
+        try {
+            parsePricesA(siteUrlA);
+            parsePricesB(siteUrlB);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // agrotender.com.ua
