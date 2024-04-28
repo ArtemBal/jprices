@@ -19,6 +19,7 @@ h2 {
 }
 
 .responsive-table {
+    width: 1000px;
   tr {
     border-radius: 3px;
     padding: 25px 30px;
@@ -31,6 +32,7 @@ h2 {
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
+    text-align: left;
   }
   .table-row {
     background-color: #ffffff;
