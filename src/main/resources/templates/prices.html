@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="/table.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <h2>Crop prices</h2>
+    <table class="responsive-table">
+        <thead class="table-header">
+            <tr>
+                <th class="col col-1">Id</th>
+                <th class="col col-2">Crop Name</th>
+                <th class="col col-3">Price</th>
+                <th class="col col-4">Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${offers.empty}" class="table-row">
+                <td colspan="2"> No Books Available </td>
+            </tr>
+            <tr th:each="offer : ${offers}" class="table-row">
+                <td class="col col-1"><span th:text="${offer.id}"> Id </span></td>
+                <td class="col col-2"><span th:text="${offer.crop}"> Crop name </span></td>
+                <td class="col col-3"><span th:text="${offer.price}"> Price </span></td>
+                <td class="col col-4"><span th:text="${offer.source}"> Source </span></td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+</body>
+</html>
