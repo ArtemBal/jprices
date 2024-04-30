@@ -11,6 +11,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Component
 public class ParserTask {
@@ -49,6 +51,7 @@ public class ParserTask {
             offer.setCrop("соя");
             offer.setPrice(tds.get(1).text());
             offer.setSource("agrotender.com.ua");
+            offer.setCreateDate(LocalDate.now());
             priceService.save(offer);
         }
     }
@@ -69,6 +72,7 @@ public class ParserTask {
         offer.setCrop("соя");
         offer.setPrice(trs.get(7).select("td").get(1).text());
         offer.setSource("tripoli.land");
+        offer.setCreateDate(LocalDate.now());
         priceService.save(offer);
     }
 }

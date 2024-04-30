@@ -1,10 +1,9 @@
 package com.artem.balan.jprices.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -15,4 +14,5 @@ public class Offer {
     private String crop;
     private String price;
     private String source;
+    private LocalDate createDate;
 }
