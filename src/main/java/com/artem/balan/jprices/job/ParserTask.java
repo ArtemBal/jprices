@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class ParserTask {
@@ -35,6 +35,7 @@ public class ParserTask {
 
     // agrotender.com.ua
     public void parsePricesA(String url) throws IOException {
+        String source = "agrotender.com.ua";
         Document doc = Jsoup.connect(url)
                 .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) " +
                         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.79 Safari/537.36")
@@ -47,17 +48,23 @@ public class ParserTask {
         Elements trs = table.select("tr");
         for (Element row : trs) {
             Elements tds = row.select("td");
+            String stringDate = tds.get(3).getElementsByClass("hidden_date").text();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.parse(stringDate, formatter);
+            if (priceService.isExist(source, date))
+                continue;
             Offer offer = new Offer();
             offer.setCrop("соя");
             offer.setPrice(tds.get(1).text());
-            offer.setSource("agrotender.com.ua");
-            offer.setCreateDate(LocalDate.now());
+            offer.setSource(source);
+            offer.setCreateDate(date);
             priceService.save(offer);
         }
     }
 
     // tripoli.land
     public void parsePricesB(String url) throws IOException {
+        String source = "tripoli.land";
         Document doc = Jsoup.connect(url)
                 .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) " +
                         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.79 Safari/537.36")
@@ -68,11 +75,14 @@ public class ParserTask {
                 .select("tbody")
                 .get(0);
         Elements trs = table.select("tr");
-        Offer offer = new Offer();
-        offer.setCrop("соя");
-        offer.setPrice(trs.get(7).select("td").get(1).text());
-        offer.setSource("tripoli.land");
-        offer.setCreateDate(LocalDate.now());
-        priceService.save(offer);
+        LocalDate date = LocalDate.now();
+        if (!priceService.isExist(source, date)) {
+            Offer offer = new Offer();
+            offer.setCrop("соя");
+            offer.setPrice(trs.get(7).select("td").get(1).text());
+            offer.setSource(source);
+            offer.setCreateDate(LocalDate.now());
+            priceService.save(offer);
+        }
     }
 }

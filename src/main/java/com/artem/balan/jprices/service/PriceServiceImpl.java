@@ -5,6 +5,7 @@ import com.artem.balan.jprices.repository.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -16,6 +17,16 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public void save(Offer offer) {
         repository.save(offer);
+    }
+
+    @Override
+    public boolean isExist(String source, LocalDate date) {
+        List<Offer> offers = repository.findAll();
+        for (Offer o: offers) {
+            if (o.getSource().equals(source) && o.getCreateDate().isEqual(date))
+                return true;
+        }
+        return false;
     }
 
     @Override
