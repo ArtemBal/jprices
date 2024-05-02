@@ -48,9 +48,11 @@ public class ParserTask {
         Elements trs = table.select("tr");
         for (Element row : trs) {
             Elements tds = row.select("td");
+
             String stringDate = tds.get(3).getElementsByClass("hidden_date").text();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate date = LocalDate.parse(stringDate, formatter);
+
             if (priceService.isExist(source, date))
                 continue;
             Offer offer = new Offer();
